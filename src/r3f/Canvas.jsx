@@ -5,7 +5,7 @@ import Stars from './Stars';
 const R3FCanvas = () => {
   return (
     <Canvas style={{ background: 'black' }}>      <Suspense fallback={null}>
-        <Stars/>
+      <Stars/>
       </Suspense>
     </Canvas>
   );
