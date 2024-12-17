@@ -21,14 +21,21 @@ const fragmentShader = `
   }
 `;
 
+function minDistance(x, minDistance){
+  return x >= minDistance? x: x+minDistance 
+}
+
 const Stars = () => {
   const starGeometry = useMemo(() => {
     const geometry = new THREE.BufferGeometry();
     const starPositions = [];
     for (let i = 0; i < 10000; i++) {
-      const x = (Math.random() - 0.5) * 100;
-      const y = (Math.random() - 0.5) * 100;
-      const z = (Math.random() - 0.5) * 100;
+      let x = (Math.random() - 0.5) * 100;
+      let y = (Math.random() - 0.5) * 100;
+      let z = (Math.random() - 0.5) * 100;
+      x = minDistance(x,20)
+      y = minDistance(y,20)
+      z = minDistance(z,20)
       starPositions.push(x, y, z);
     }
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));

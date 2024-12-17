@@ -14,8 +14,10 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.2.0",
     "@mui/material": "^6.2.0",
+    "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",
     "@types/three": "^0.170.0",
+    "leva": "^0.9.35",
     "node-fetch": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -39,4 +41,3 @@
     "vite": "^6.0.1"
   }
 }
-

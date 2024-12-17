@@ -10,4 +10,4 @@ console.log(response)
 
 
 export const TLE_API = "http://tle.ivanstanojevic.me"
-const TLE_ENDPOINTS =(satQuery:string) => `/api/tle?search=${satQuery}`
+const TLE_ENDPOINTS = (satQuery:string) => `/api/tle?search=${satQuery}`
