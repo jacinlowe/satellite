@@ -5,6 +5,7 @@ import { useControls } from 'leva';
 
 import Stars from './Stars';
 import Earth from './Earth';
+import Satellite from './Satellite';
 // import OrbitLine from './OrbitLines';
 
 
@@ -27,8 +28,12 @@ const R3FCanvas = () => {
       
       <ambientLight />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} /> 
-      {/* <OrbitLine/> */}
+        {/* <OrbitLine/> */}
+      <group>
+        
       <Earth stopRotation={earthRotationSettings.stopRotation} rotationSpeed={earthRotationSettings.rotationSpeed} />
+      <Satellite/>
+      </group>
       {/* <TestBox position={[-1.2,0,0]} /> 
       <TestBox position={[1.2,0,0]} />  */}
       <Stars/>
