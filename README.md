@@ -2,7 +2,8 @@
  The purpose of this project is to showcase satellites in orbit
 
 # PROJECT GOALS
- 
+ 1. Parent main light source to Sun position
+
 # BUILD STEPS
 # React + Vite
 

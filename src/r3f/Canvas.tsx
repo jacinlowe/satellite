@@ -1,6 +1,7 @@
 import React, { Suspense,useRef,useState } from 'react';
 import { Canvas, useFrame,  } from '@react-three/fiber';
 import { Stats, OrbitControls } from '@react-three/drei'
+import * as THREE from 'three';
 import { useControls } from 'leva';
 
 import Stars from './Stars';
@@ -9,9 +10,18 @@ import Satellite from './Satellite';
 // import OrbitLine from './OrbitLines';
 
 
-function TestBox(props){
-  const mesh = useRef();
-  useFrame(() => (mesh.current.rotation.x += 0.01));
+interface TestBoxProps {
+  position?:[number,number,number];
+}
+
+function TestBox(props:TestBoxProps){
+  const mesh = useRef<THREE.Mesh>(null);
+  
+  useFrame(() => {
+    if (mesh.current)
+      mesh.current.rotation.x += 0.01;
+  })
+
   return (
     <mesh {...props} ref={mesh}>
       <boxGeometry args={[1,1,1]} />
@@ -26,8 +36,8 @@ const R3FCanvas = () => {
     <Canvas style={{ background: 'black' }}>      
     <Suspense fallback={null}>
       
-      <ambientLight />
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} /> 
+      <ambientLight intensity={2} />
+      <pointLight position={[-30, -10, -10]} decay={0} intensity={Math.PI*2} /> 
         {/* <OrbitLine/> */}
       <group>
         
