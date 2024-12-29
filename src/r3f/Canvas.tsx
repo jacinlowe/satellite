@@ -7,7 +7,7 @@ import { useControls } from 'leva';
 import Stars from './Stars';
 import Earth from './Earth';
 import Satellite from './Satellite';
-// import OrbitLine from './OrbitLines';
+import OrbitLine from './OrbitLines';
 
 
 interface TestBoxProps {
@@ -32,13 +32,15 @@ function TestBox(props:TestBoxProps){
 
 const R3FCanvas = () => {
   const  earthRotationSettings  = useControls({rotationSpeed: 1, stopRotation:false});
+  const  orbitLineSettings  = useControls({angle: 1, color:'white'});
+
+
   return (
     <Canvas style={{ background: 'black' }}>      
     <Suspense fallback={null}>
-      
       <ambientLight intensity={2} />
       <pointLight position={[-30, -10, -10]} decay={0} intensity={Math.PI*2} /> 
-        {/* <OrbitLine/> */}
+      <OrbitLine angle={orbitLineSettings.angle} lineColor={orbitLineSettings.color} />
       <group>
         
       <Earth stopRotation={earthRotationSettings.stopRotation} rotationSpeed={earthRotationSettings.rotationSpeed} />

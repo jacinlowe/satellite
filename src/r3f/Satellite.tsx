@@ -1,14 +1,20 @@
-import {  useRef } from 'react';
-import { useLoader,useFrame  } from '@react-three/fiber';
+import React,{  useRef } from 'react';
+import * as THREE from 'three';
+import { useLoader, useFrame, primitive } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/Addons.js';
 
 
-// eslint-disable-next-line react/prop-types
-const Satellite = ({rotationSpeed=1, stopRotation=false})=>{
+
+interface SatelliteProps {
+  rotationSpeed: number;
+  stopRotation: boolean;
+}
+
+const Satellite:React.FC<SatelliteProps> = ({rotationSpeed=1, stopRotation=false})=>{
     
   const gltf = useLoader(GLTFLoader,'/models/ISS_stationary.glb')
-  const scaleSize = [0.003,0.003,0.003];
-  const mesh = useRef();
+  const scaleSize = [0.001,0.001,0.001];
+  const mesh = useRef<THREE.Mesh>(null);
   
 //   useFrame(() => {
     
