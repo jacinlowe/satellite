@@ -8,7 +8,9 @@ function App() {
   const [locations, setLocations] = useState(null)
   
   useEffect(() => {
-    getObservatories()
+    getObservatories().then((data) => {
+      console.log(data)
+    })
   }, [])
 
   return (
