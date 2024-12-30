@@ -11,7 +11,7 @@ interface OrbitLineProps {
     controlPoint?: THREE.Vector3;
   }
 
-const OrbitLine: React.FC<OrbitLineProps> = ({radius=3, angle=18, lineColor='white', controlPoint}) => {
+const OrbitLine: React.FC<OrbitLineProps> = ({radius=1.6, angle=18, lineColor='white', controlPoint}) => {
     const ref = useRef<THREE.Line>(null);
     
     // useFrame(() => (ref.current.rotation.x = ref.current.rotation.y += 0.01));

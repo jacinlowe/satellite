@@ -1,48 +1,35 @@
-import { Suspense, useRef } from 'react';
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
+import { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { Stats, OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
+import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { useControls } from 'leva';
 import Earth from './Earth';
 import Satellite from './Satellite';
 import OrbitLine from './OrbitLines';
+import Sun from './Sun';
+import Skybox from './Skybox';
 
 const R3FCanvas = () => {
   const earthRotationSettings = useControls({ rotationSpeed: 1, stopRotation: false });
   const orbitLineSettings = useControls({ angle: 1, color: 'white' });
 
-  const Skybox = () => {
-    const texture = useLoader(THREE.TextureLoader, '/milky_way.png');
-    const skyboxRef = useRef();
-
-    useFrame(({ camera }) => {
-      if (skyboxRef.current) {
-        skyboxRef.current.position.copy(camera.position);
-      }
-    });
-
-    return (
-      <mesh ref={skyboxRef}>
-        <sphereGeometry args={[500, 60, 40]} />
-        <meshBasicMaterial map={texture} side={THREE.BackSide} />
-      </mesh>
-    );
-  };
-
   return (
     <Canvas>
       <Suspense fallback={null}>
         <Skybox />
-        <ambientLight intensity={2} />
-        <pointLight position={[-30, -10, -10]} decay={0} intensity={Math.PI * 2} />
+        <ambientLight intensity={1} />
         <OrbitLine angle={orbitLineSettings.angle} lineColor={orbitLineSettings.color} />
         <group>
           <Earth stopRotation={earthRotationSettings.stopRotation} rotationSpeed={earthRotationSettings.rotationSpeed} />
           <Satellite />
+          <Sun />
         </group>
       </Suspense>
       <OrbitControls minDistance={2} maxDistance={50} />
       <Stats />
+      <EffectComposer>
+        <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+      </EffectComposer>
     </Canvas>
   );
 };
