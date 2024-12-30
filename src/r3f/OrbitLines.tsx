@@ -1,35 +1,72 @@
 import * as THREE from 'three';
-import { useRef,useFrame } from 'react';
-import { Line,LineBasicMaterial,CircleGeometry, Circle } from '@react-three/drei';
+import { useRef,useMemo } from 'react';
+import { Line, shaderMaterial } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 
 
- function OrbitLine(){
-     const geometry = new CircleGeometry(5,32);
-     const material = new LineBasicMaterial({color:0xffff00});
+interface OrbitLineProps {
+    radius: number;
+    angle: number;
+    lineColor: string;
+    controlPoint?: THREE.Vector3;
+  }
 
-     return <Line geometry={geometry} material={material}/>
+const OrbitLine: React.FC<OrbitLineProps> = ({radius=3, angle=18, lineColor='white', controlPoint}) => {
+    const ref = useRef<THREE.Line>(null);
+    
+    // useFrame(() => (ref.current.rotation.x = ref.current.rotation.y += 0.01));
+    const numPoints = 128;
+    const points = useMemo(() => {
+        const points = [];
+        for (let i = 0; i < numPoints; i++) {
+            const theta = (i / 64) * Math.PI * 2;
 
+          points.push(new THREE.Vector3(Math.cos(theta) * radius, Math.sin(theta) * radius, 0));
+        }
+        return points;
+      }, [radius]);
+
+      useFrame(() => {
+        if (ref.current){
+            ref.current.rotation.x = THREE.MathUtils.degToRad(angle);
+            // ref.current.rotation.z = THREE.MathUtils.degToRad(angle);
+        }
+      });
+      const defaultControlPoint = controlPoint || points[0];
+      const ShaderMaterial = shaderMaterial({
+        color: new THREE.Color(lineColor),
+        controlPoint: defaultControlPoint,
+        radius: radius,
+        numPoints: numPoints
+      },
+      `
+      varying vec3 vPosition;
+      varying float vIndex;
+      void main() {
+        vPosition = position;
+        vIndex = position.x; // Assuming x is the index for simplicity
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    `
+      uniform vec3 color;
+      varying float vIndex;
+      varying float numPoints;
+      void main() {
+        float opacity = 1.0 - (vIndex / numPoints); // Assuming 128 points
+        gl_FragColor = vec4(color, opacity);
+      }
+    `)
+    
+    return (
+       <Line ref={ref} points={points} color={lineColor} linewidth={1}>
+        <shaderMaterial attach="material" args={[ShaderMaterial]} transparent />
+       </Line>
+            
+       
+        
+    );
  }
 
 export default OrbitLine;
 
- function OrbitLine() {
-     const ref = useRef(null);
-      useFrame(() => (ref.current.rotation.x = ref.current.rotation.y += 0.01));
- 
-     return (
-        <mesh
-           visible
-           position={[0, 0, 0]}
-           rotation={[0, 0, 0]}
-           castShadow
-           ref={ref}>
-              <ringBufferGeometry args={[1, 4, 32]} />
-              <meshBasicMaterial attach="material" color="hotpink" />
-        </mesh>
-     );
-  }
-
-function OrbitLine() {
-    return <Circle/> 
-}
