@@ -10,7 +10,7 @@ interface SatelliteProps {
 
 const Satellite: React.FC<SatelliteProps> = () => {
   const gltf = useLoader(GLTFLoader, '/models/ISS_stationary.glb');
-  const scaleSize = [0.0005, 0.0005, 0.0005];
+  const scaleSize = [0.001, 0.001, 0.001];
   const mesh = useRef<THREE.Mesh>(null);
 
   gltf.scene.position.x = 1.6;
