@@ -62,9 +62,6 @@ const OrbitLine: React.FC<OrbitLineProps> = ({radius=1.6, angle=18, lineColor='w
        <Line ref={ref} points={points} color={lineColor} linewidth={1}>
         <shaderMaterial attach="material" args={[ShaderMaterial]} transparent />
        </Line>
-            
-       
-        
     );
  }
 
